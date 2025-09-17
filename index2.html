@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kalkulator Winrate MLBB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0c0f1a;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #00aaff;
+    }
+    .container {
+      max-width: 400px;
+      width: 100%;
+      background: #1c1f2b;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      background: #333;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kalkulator Winrate MLBB</h1>
+  <div class="container">
+    <label>Total Pertandingan Kamu Saat Ini</label>
+    <input type="number" id="matches" placeholder="Contoh: 182" />
+
+    <label>Total Win Rate Kamu Saat Ini (%)</label>
+    <input type="number" id="currentWR" placeholder="Contoh: 67" />
+
+    <label>Win Rate Total yang Kamu Inginkan (%)</label>
+    <input type="number" id="targetWR" placeholder="Contoh: 70" />
+
+    <button onclick="calculate()">Hitung</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const matches = parseInt(document.getElementById("matches").value);
+      const currentWR = parseFloat(document.getElementById("currentWR").value);
+      const targetWR = parseFloat(document.getElementById("targetWR").value);
+
+      // Validasi input
+      if (isNaN(matches) || isNaN(currentWR) || isNaN(targetWR) || matches <= 0 || currentWR < 0 || targetWR < 0) {
+        document.getElementById("result").innerText = "Silakan masukkan nilai yang valid.";
+        return;
+      }
+
+      const currentWins = matches * (currentWR / 100);
+      const neededWins = Math.ceil((targetWR * matches - 100 * currentWins) / (100 - targetWR));
+
+      const resultText = neededWins > 0
+        ? `Kamu perlu menang sebanyak ${neededWins} kali berturut-turut tanpa kalah untuk mencapai ${targetWR}% win rate.`
+        : "Kamu sudah mencapai atau melebihi target win rate.";
+
+      document.getElementById("result").innerText = resultText;
+    }
+  </script>
+</body>
+</html>
+ 
